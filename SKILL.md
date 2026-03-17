@@ -264,7 +264,7 @@ rclone copyto "data/renders/short_<N>_description.txt" "gdrive:Output-Shorts/${V
 
 - Whisper: `whisper-cli` (nicht `whisper-cpp`), Modell als `$WHISPER_MODEL`
 - Remotion: `${CLAUDE_SKILL_DIR}` ist das Projekt. Videos in `public/` fuer `staticFile()`
-- Duration: automatisch aus Captions + 1500ms Buffer
+- Duration: automatisch aus tatsaechlicher Video-Dateilaenge via `getVideoMetadata()` (keine Freeze Frames)
 - Segmente OHNE 9:16 Crop schneiden
 - Side-by-Side Interview → IMMER `layout: "split"`
 - `generate_ai_clips.py` mit `--queries` (Claude waehlt Begriffe)
