@@ -1,4 +1,6 @@
 import { Composition } from "remotion";
+import { getVideoMetadata } from "@remotion/media-utils";
+import { staticFile } from "remotion";
 import { ShortVideo } from "./ShortVideo";
 import type { ShortVideoProps } from "./ShortVideo";
 
@@ -40,18 +42,14 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={defaultProps}
-        calculateMetadata={({ props }) => {
-          // Calculate duration from last caption timestamp
-          // 1500ms buffer after last word: Whisper toMs is often slightly early,
-          // so we need room for the word to finish + natural breathing pause
-          const lastCaption = props.captions[props.captions.length - 1];
-          const lastMs = lastCaption
-            ? lastCaption.startMs + lastCaption.durationMs + 1500
-            : 45000;
-          const contentFrames = Math.ceil((lastMs / 1000) * 30);
-          return {
-            durationInFrames: contentFrames,
-          };
+        calculateMetadata={async ({ props }) => {
+          // Use actual video file duration — segments are cut with padding in the pipeline,
+          // so the composition should match the video length exactly (no freeze frames)
+          const { durationInSeconds } = await getVideoMetadata(
+            staticFile(props.videoSrc),
+          );
+          const durationInFrames = Math.ceil(durationInSeconds * 30);
+          return { durationInFrames };
         }}
       />
     </>
