@@ -1,0 +1,33 @@
+node_modules
+dist
+.DS_Store
+.env
+out
+
+# Generated segments, renders, and processing cache
+data/segments/*.wav
+data/segments/*.wav.json
+data/segments/*.mp4
+data/segments/*.jpg
+data/segments/*.json
+data/segments/*.mjs
+data/renders/*.mp4
+data/renders/*.txt
+
+# Public video files (downloaded/generated at runtime)
+public/*.mp4
+
+# Python virtual environment
+scripts/.venv/
+
+# OAuth credentials (user-specific)
+scripts/credentials.json
+scripts/token.json
+
+# Root-level temp renders
+*.mp4
+
+# Keep directory structure
+!data/segments/.gitkeep
+!data/renders/.gitkeep
+short_*_description.txt
